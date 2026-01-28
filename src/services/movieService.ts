@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Movie, TMDBResponse } from "../types/movie";
+import type { TMDBResponse } from "../types/movie";
 // interface TMDBResponse {
 //   results: Movie[];
 //   total_results: number;
