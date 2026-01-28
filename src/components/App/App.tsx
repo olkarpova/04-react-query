@@ -12,48 +12,45 @@ import MovieModal from '../MovieModal/MovieModal';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import ReactPaginate from 'react-paginate';
 
-
 export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const {data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['movies', searchQuery, currentPage],
     queryFn: () => fetchMovies(searchQuery, currentPage),
     retry: 1,
-    enabled: searchQuery.trim().length > 0, 
+    enabled: searchQuery.trim().length > 0,
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
     // gcTime: 2000,
     // staleTime: 5000,
   });
 
-  const movies = data ? data.results || []: [];
-  
-  console.log('Movies length:', movies.length); 
-  console.log('Data:', data);
+  const movies = data ? data.results || [] : [];
 
+  console.log('Movies length:', movies.length);
+  console.log('Data:', data);
 
   const handleSubmit = (query: string): void => {
     if (searchQuery !== query) {
       setCurrentPage(1);
     }
-    setSearchQuery(query)
-  }
+    setSearchQuery(query);
+  };
   const handleMovieSelect = (movie: Movie) => {
     setSelectedMovie(movie);
-  }
+  };
   const handleCloseModal = () => {
     setSelectedMovie(null);
-  }
+  };
 
   useEffect(() => {
     if (data && movies.length === 0 && searchQuery && !isLoading) {
       toast.error('No movies found for your request.');
     }
   }, [data, movies.length, searchQuery, isLoading]);
-
 
   return (
     <>
@@ -84,7 +81,6 @@ export default function App() {
             )}
           </>
         )}
-          
       </main>
       {selectedMovie && (
         <MovieModal movie={selectedMovie} onClose={handleCloseModal} />

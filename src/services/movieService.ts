@@ -1,10 +1,12 @@
 import axios from "axios";
-import type { TMDBResponse } from "../types/movie";
-// interface TMDBResponse {
-//   results: Movie[];
-//   total_results: number;
-//   page: number;
-// }
+import type { Movie } from "../types/movie";
+
+export interface TMDBResponse {
+  results: Movie[];
+    total_results: number;
+    total_pages: number;
+  page: number;
+}
 
 export const fetchMovies = async (query: string, page: number):
     Promise<TMDBResponse> => {
